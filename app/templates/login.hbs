@@ -1,0 +1,27 @@
+{{page-title "Login"}}
+{{outlet}}
+
+
+<div class="login-form">
+  <form {{on "submit" this.login}}>
+    <h1>Login</h1>
+    <div class="content">
+      <div class="input-field">
+        <input type="text" placeholder="Username"  {{on "change" (fn this.update "username")}}>
+      </div>
+      <div class="input-field">
+        <input type="password" placeholder="Password"  {{on "change" (fn this.update "password")}}>
+      </div>
+    </div>
+    <div class="action">
+      
+      <button type="submit">Login</button> 
+    </div>
+  </form>
+</div>
+
+
+
+
+
+

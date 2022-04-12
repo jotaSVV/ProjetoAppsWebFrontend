@@ -1,0 +1,21 @@
+{{page-title "Register"}}
+{{outlet}}
+
+
+<div class="login-form">
+  <form {{on "submit" this.register}}>
+    <h1>Register</h1>
+    <div class="content">
+      <div class="input-field">
+        <input type="text" placeholder="Username"  {{on "change" (fn this.update "username")}}>
+      </div>
+      <div class="input-field">
+        <input type="password" placeholder="Password"  {{on "change" (fn this.update "password")}}>
+      </div>
+    </div>
+    <div class="action">
+      
+      <button type="submit">Register</button> 
+    </div>
+  </form>
+</div>
