@@ -2,6 +2,7 @@
 @import 'login.css';
 @import 'register.css';
 @import 'guide.css';
+@import 'map.css';
 
 .container {
     margin-left: 15px;

@@ -1,0 +1,28 @@
+.register .return{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register .return-login{
+    font-family: Poppins-Regular;
+    font-size: 14px;
+    line-height: 1.7;
+    cursor: pointer;
+}
+
+.register .return-login:hover{
+    text-decoration: underline;
+}
+
+@media screen and (min-width: 768px){
+    .register .wrap-login100 {
+        padding: 177px 130px 33px 95px;
+    }
+    
+}
+
+@media screen and (min-width: 776px){
+    .wrap-login100 {
+        padding: 100px 15px 33px 15px;
+    }
+  }

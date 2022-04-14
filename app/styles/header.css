@@ -5,6 +5,13 @@ header {
     background-color: white;
 }
 
+header .wrap-header{
+    background-image: linear-gradient(to bottom, #DDDDDD, #DDDDDD 1px);
+    background-size: 1px 1px;
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
 header .header-menu {
     display: flex;
     align-items: center;

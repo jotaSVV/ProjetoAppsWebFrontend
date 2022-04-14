@@ -38,4 +38,9 @@ export default class RegisterController extends Controller {
   update(attr, event) {
     this[attr] = event.target.value;
   }
+
+  @action
+  returnLogin() {
+    this.transitionToRoute('login');
+  }
 }

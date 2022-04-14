@@ -19,7 +19,7 @@ export default class LoginController extends Controller {
         this.username,
         this.password
       );
-      this.transitionToRoute('dashboard');
+      RouterService.transitionTo('dashboard');
     } catch (error) {
       this.error = error;
     }
