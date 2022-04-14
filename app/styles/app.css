@@ -1,4 +1,8 @@
 @import 'header.css';
+@import 'login.css';
+@import 'register.css';
+@import 'guide.css';
+
 .container {
     margin-left: 15px;
     margin-right: 15px;

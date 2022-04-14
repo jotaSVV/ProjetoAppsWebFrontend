@@ -26,6 +26,11 @@ export default class LoginController extends Controller {
   }
 
   @action
+  createAcount(event) {
+    this.transitionToRoute('register');
+  }
+
+  @action
   update(attr, event) {
     this[attr] = event.target.value;
   }

@@ -1,9 +1,10 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class DashboardController extends Controller {
-    @action
-    logout() {
-        console.warn("Entrei")
+    @service session;
+
+    beforeModel(transition) {
+        this.session.requireAuthentication(transition, 'login');
     }
 }
