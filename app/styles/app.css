@@ -1,9 +1,10 @@
+@import "ember-modal-dialog/ember-modal-structure.css";
+@import "ember-modal-dialog/ember-modal-appearance.css";
 @import 'header.css';
 @import 'login.css';
 @import 'register.css';
 @import 'guide.css';
 @import 'map.css';
-
 .container {
     margin-left: 15px;
     margin-right: 15px;

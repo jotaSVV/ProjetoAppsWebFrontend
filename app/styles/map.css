@@ -1,10 +1,11 @@
-.map{
-    height:100%;;
-    width:100%;
+.map {
+    height: 100%;
+    ;
+    width: 100%;
 }
 
-.map .leaflet-container{
-    height: calc(100vh - 48px);
+.map .leaflet-container {
+    height: calc(100vh - 50px);
     width: 100%;
     margin: auto;
 }

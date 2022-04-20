@@ -2,10 +2,43 @@
     <div class="wrap-header">
         <div class="container">
             <div class="header-menu">
-                <div class="logout">
-                    <div class="icon-logout"{{on "click" this.logout}}></div>
+                <div class="left-menu">
+                    <div class="icon">Ícon</div>
+                    <div class="user-info">Nome</div>
+                </div>
+                <div class="right-menu">
+                    <div class="filters" {{action (action "openFilterModal")}}>
+                        <p>Filtros</p>
+                    </div>
+                    <div class="search" {{action (action "openSearchModal")}}>
+                        <p>Pesquisas</p>
+                    </div>
+                    <div class="alerts">
+                        <div class="alert-icon svg"></div>
+                    </div>
+                    <div class="logout">
+                        <div class="icon-logout svg"{{action (action "logout")}}></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    {{#if this.isShowingFilterModal}}
+    {{#modal-dialog
+        onClose=(action "openFilterModal")
+        targetAttachment="center"
+        translucentOverlay=true
+    }}
+        Filtro!
+    {{/modal-dialog}}
+    {{/if}}
+    {{#if this.isShowingSearchModal}}
+    {{#modal-dialog
+        onClose=(action "openSearchModal")
+        targetAttachment="center"
+        translucentOverlay=true
+    }}
+        Pesquisa!
+    {{/modal-dialog}}
+    {{/if}}
 </header>
