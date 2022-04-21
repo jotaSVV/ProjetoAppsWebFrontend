@@ -29,7 +29,27 @@
         targetAttachment="center"
         translucentOverlay=true
     }}
-        Filtro!
+        <div class="modal-filter">
+            <div class="user">
+                <div class="dropdown">
+                    <div class="select {{if this.active 'active' 'non-active'}}" {{action (action "openSelect")}}>
+                        <span>Escolha utizador(es)</span>
+                        <i class="fa fa-chevron-left"></i>
+                    </div>
+                    <input type="hidden" name="gender">
+                    <ul class="dropdown-menu">
+                        <li id="male">Male</li>
+                        <li id="female">Female</li>
+                    </ul>
+                </div>
+                <span class="msg"></span>
+
+            </div>
+            <div class="date">
+                <div class="input-date1"><input id="date" type="date"></div>
+                <div class="input-date2"><input id="date" type="date"></div>
+            </div>
+        </div>
     {{/modal-dialog}}
     {{/if}}
     {{#if this.isShowingSearchModal}}

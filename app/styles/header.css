@@ -82,3 +82,23 @@
         header .header-menu .alerts .alert-icon {
             background-image: url("data:image/svg+xml,%3csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 611.999 611.999' style='enable-background:new 0 0 611.999 611.999%3b' xml:space='preserve'%3e%3cg%3e%3cg%3e%3cg%3e%3cpath d='M570.107%2c500.254c-65.037-29.371-67.511-155.441-67.559-158.622v-84.578c0-81.402-49.742-151.399-120.427-181.203 C381.969%2c34%2c347.883%2c0%2c306.001%2c0c-41.883%2c0-75.968%2c34.002-76.121%2c75.849c-70.682%2c29.804-120.425%2c99.801-120.425%2c181.203v84.578 c-0.046%2c3.181-2.522%2c129.251-67.561%2c158.622c-7.409%2c3.347-11.481%2c11.412-9.768%2c19.36c1.711%2c7.949%2c8.74%2c13.626%2c16.871%2c13.626 h164.88c3.38%2c18.594%2c12.172%2c35.892%2c25.619%2c49.903c17.86%2c18.608%2c41.479%2c28.856%2c66.502%2c28.856 c25.025%2c0%2c48.644-10.248%2c66.502-28.856c13.449-14.012%2c22.241-31.311%2c25.619-49.903h164.88c8.131%2c0%2c15.159-5.676%2c16.872-13.626 C581.586%2c511.664%2c577.516%2c503.6%2c570.107%2c500.254z M484.434%2c439.859c6.837%2c20.728%2c16.518%2c41.544%2c30.246%2c58.866H97.32 c13.726-17.32%2c23.407-38.135%2c30.244-58.866H484.434z M306.001%2c34.515c18.945%2c0%2c34.963%2c12.73%2c39.975%2c30.082 c-12.912-2.678-26.282-4.09-39.975-4.09s-27.063%2c1.411-39.975%2c4.09C271.039%2c47.246%2c287.057%2c34.515%2c306.001%2c34.515z M143.97%2c341.736v-84.685c0-89.343%2c72.686-162.029%2c162.031-162.029s162.031%2c72.686%2c162.031%2c162.029v84.826 c0.023%2c2.596%2c0.427%2c29.879%2c7.303%2c63.465H136.663C143.543%2c371.724%2c143.949%2c344.393%2c143.97%2c341.736z M306.001%2c577.485 c-26.341%2c0-49.33-18.992-56.709-44.246h113.416C355.329%2c558.493%2c332.344%2c577.485%2c306.001%2c577.485z'/%3e%3cpath d='M306.001%2c119.235c-74.25%2c0-134.657%2c60.405-134.657%2c134.654c0%2c9.531%2c7.727%2c17.258%2c17.258%2c17.258 c9.531%2c0%2c17.258-7.727%2c17.258-17.258c0-55.217%2c44.923-100.139%2c100.142-100.139c9.531%2c0%2c17.258-7.727%2c17.258-17.258 C323.259%2c126.96%2c315.532%2c119.235%2c306.001%2c119.235z'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e");
         }
+
+        #modal-overlays .modal-filter{min-width:400px; height:250px;padding:40px 25px;}
+        #modal-overlays .modal-filter .date{display:flex; margin-top:20px; align-items:center;}
+        #modal-overlays .modal-filter .date .input-date2{margin-left: 20px;}
+        #modal-overlays .modal-filter .date .input-date1 input, #modal-overlays .modal-filter .date .input-date2 input{font-size: 15px;cursor: pointer;}
+        #modal-overlays .modal-filter .user{display:flex;align-items:center;width:100%;}
+        #modal-overlays .modal-filter span.msg,span.choose {color: #555;padding: 5px 0 10px;display: inherit}
+        #modal-overlays .modal-filter .dropdown {width: 300px;display: inline-block;background-color: #fff;border-radius: 2px;box-shadow: 0 0 2px rgb(204, 204, 204);transition: all .5s ease;position: relative;font-size: 14px;color: #474747;height: 100%;text-align: left}
+        #modal-overlays .modal-filter .dropdown .select {cursor: pointer;display: block;padding: 10px}
+        #modal-overlays .modal-filter .dropdown .select > i {font-size: 13px;color: #888;cursor: pointer;transition: all .3s ease-in-out;float: right;line-height: 20px}
+        #modal-overlays .modal-filter .dropdown:hover {box-shadow: 0 0 4px rgb(204, 204, 204)}
+        #modal-overlays .modal-filter .dropdown:active {background-color: #f8f8f8}
+        #modal-overlays .modal-filter .dropdown.active:hover,
+        #modal-overlays .modal-filter .dropdown.active {box-shadow: 0 0 4px rgb(204, 204, 204);border-radius: 2px 2px 0 0;background-color: #f8f8f8}
+        #modal-overlays .modal-filter .dropdown.active .select > i {transform: rotate(-90deg)}
+        #modal-overlays .modal-filter .dropdown .dropdown-menu {position: absolute;background-color: #fff;width: 100%;left: 0;margin-top: 1px;box-shadow: 0 1px 2px rgb(204, 204, 204);border-radius: 0 1px 2px 2px;overflow: hidden;display: none;max-height: 144px;overflow-y: auto;z-index: 9}
+        #modal-overlays .modal-filter .dropdown .dropdown-menu li {padding: 10px;transition: all .2s ease-in-out;cursor: pointer} 
+        #modal-overlays .modal-filter .dropdown .dropdown-menu {padding: 0;list-style: none}
+        #modal-overlays .modal-filter .dropdown .dropdown-menu li:hover {background-color: #f2f2f2}
+        #modal-overlays .modal-filter .dropdown .dropdown-menu li:active {background-color: #e2e2e2}
