@@ -30,16 +30,17 @@
         translucentOverlay=true
     }}
         <div class="modal-filter">
+            <div class="close-model"></div>
             <div class="user">
-                <div class="dropdown">
+                <div class="dropdown" {{on-click-outside (action "closeSelect")}}>
                     <div class="select {{if this.active 'active' 'non-active'}}" {{action (action "openSelect")}}>
-                        <span>Escolha utizador(es)</span>
+                        <span>{{this.text}}</span>
                         <i class="fa fa-chevron-left"></i>
                     </div>
                     <input type="hidden" name="gender">
-                    <ul class="dropdown-menu">
-                        <li id="male">Male</li>
-                        <li id="female">Female</li>
+                    <ul class="dropdown-menu {{if this.selectUser 'active' 'non-active'}}">
+                        <li id="male" name="male" {{action (action "selectValue" "male")}}>Male</li>
+                        <li id="female" name="female" {{action (action "selectValue" "female")}}>Female</li>
                     </ul>
                 </div>
                 <span class="msg"></span>

@@ -10,6 +10,8 @@ export default Ember.Component.extend({
     isShowingFilterModal: false,
     isShowingSearchModal: false,
     active: false,
+    selectUser: false,
+    text: "Escolha utizador(es)",
 
     actions: {
         openFilterModal() {
@@ -39,10 +41,16 @@ export default Ember.Component.extend({
             //     throw new Error(error.message);
             // }
         },
-        openSelect(){
-            this.toggleProperty('active')
-            console.warn(this.get('#modal-overlays .modal-filter .dropdown .dropdown-menu'))
-            console.warn(Ember.$('#modal-overlays .modal-filter .dropdown .dropdown-menu').find('.dropdown-menu'))
+        openSelect() {
+            this.set('selectUser', true);
+        },
+        closeSelect() {
+            this.set('selectUser', false);
+        },
+        selectValue(attr) {
+            this.set('selectUser', false);
+            this.set('text', attr);
+            console.warn(attr)
         }
 
     }
