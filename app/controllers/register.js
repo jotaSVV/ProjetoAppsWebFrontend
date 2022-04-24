@@ -10,7 +10,8 @@ export default class RegisterController extends Controller {
     @action
     async register(event) {
         event.preventDefault();
-        let response = await fetch('http://localhost:8081/api/v1/auth/register', {
+        //let response = await fetch('http://localhost:8081/api/v1/auth/register', {
+        let response = await fetch('http://gobackendufp.herokuapp.com/api/v1/auth/register', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -33,13 +34,11 @@ export default class RegisterController extends Controller {
         }
     }
 
-    @action
-    update(attr, event) {
+    @action update(attr, event) {
         this[attr] = event.target.value;
     }
 
-    @action
-    returnLogin() {
+    @action returnLogin() {
         this.transitionToRoute('login');
     }
 }

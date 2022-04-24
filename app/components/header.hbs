@@ -3,7 +3,9 @@
         <div class="container">
             <div class="header-menu">
                 <div class="left-menu">
-                    <div class="icon">Ícon</div>
+                    <a href="#" class="icon">
+                        <div class="svg-icon"></div>
+                    </a>
                     <div class="user-info">Nome</div>
                 </div>
                 <div class="right-menu">
@@ -15,6 +17,9 @@
                     </div>
                     <div class="alerts">
                         <div class="alert-icon svg"></div>
+                    </div>
+                    <div class="chat">
+                        <div class="chat-svg svg"></div>
                     </div>
                     <div class="logout">
                         <div class="icon-logout svg"{{action (action "logout")}}></div>
@@ -30,7 +35,9 @@
         translucentOverlay=true
     }}
         <div class="modal-filter">
-            <div class="close-model"></div>
+            <div class="close-modal" {{action (action "openFilterModal")}}>
+                <div class="close-svg"></div>
+            </div>
             <div class="user">
                 <div class="dropdown" {{on-click-outside (action "closeSelect")}}>
                     <div class="select {{if this.active 'active' 'non-active'}}" {{action (action "openSelect")}}>
@@ -49,6 +56,9 @@
             <div class="date">
                 <div class="input-date1"><input id="date" type="date"></div>
                 <div class="input-date2"><input id="date" type="date"></div>
+            </div>
+            <div class="submit">
+                <button type="submit" class="filter-btn">Pesquisar</button>
             </div>
         </div>
     {{/modal-dialog}}

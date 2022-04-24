@@ -3,9 +3,13 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
 export default class DashboardController extends Controller {
-  @service session;
+    @service session;
 
-  beforeModel(transition) {
-    this.session.requireAuthentication(transition, 'login');
-  }
+    teste() {
+        console.warn("teste")
+    }
+
+    beforeModel(transition) {
+        this.session.requireAuthentication(transition, 'login');
+    }
 }
