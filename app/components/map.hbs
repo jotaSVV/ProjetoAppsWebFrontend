@@ -1,11 +1,11 @@
 <div class="map">
     <LeafletMap @lat={{this.lat}} @lng={{this.lng}} @zoom={{this.zoom}} @onDblclick={{action (action "newPosition")}} as |layers|>
         <layers.tile @url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"/>
-          {{#if this.user}}
-            <layers.marker @lat={{this.user.lat}} @lng={{this.user.lng}} as |marker|>
-            <marker.popup @popupOpen={{readonly r.isOpen}}>
-                <h3><Input @value={{this.user.name}}/></h3>
-            </marker.popup>
+        {{#if this.isUserLocation}}
+            <layers.marker @location={{this.emberConfLocation}} as |marker|>
+                <marker.popup>
+                    <h3>{{this.user.username}}</h3>
+                </marker.popup>
             </layers.marker>
         {{/if}}
     </LeafletMap>

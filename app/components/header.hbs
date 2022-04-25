@@ -6,7 +6,7 @@
                     <a href="#" class="icon">
                         <div class="svg-icon"></div>
                     </a>
-                    <div class="user-info">Nome</div>
+                    <div class="user-info">{{this.session.data.authenticated.User.username}}</div>
                 </div>
                 <div class="right-menu">
                     <div class="filters" {{action (action "openFilterModal")}}>

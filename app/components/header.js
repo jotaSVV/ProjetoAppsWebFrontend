@@ -1,12 +1,8 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
 import Ember from 'ember';
+import { inject } from '@ember/service';
 
 export default Ember.Component.extend({
-    /**@service session;**/
-
-
+    session: inject('session'),
     isShowingFilterModal: false,
     isShowingSearchModal: false,
     active: false,

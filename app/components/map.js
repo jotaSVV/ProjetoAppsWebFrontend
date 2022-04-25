@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { inject } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-class UserLocation {
+export class UserLocation {
     @tracked username;
     @tracked lat;
     @tracked lng;
@@ -12,6 +12,10 @@ class UserLocation {
         this.lat = lat;
         this.lng = lng;
     }
+
+    getLocation() {
+        return [this.lat, this.lng]
+    }
 }
 
 export default Ember.Component.extend({
@@ -19,7 +23,10 @@ export default Ember.Component.extend({
     lng: -8.6291053,
     zoom: 16,
     session: inject('session'),
+    isUserLocation: false,
     user: UserLocation,
+    emberConfLocation: [41.1579438, -8.6291053],
+    userName: "",
     async init() {
         this._super(...arguments);
         console.warn(this.session)
@@ -37,21 +44,17 @@ export default Ember.Component.extend({
             }
         });
         if (response.ok) {
-            //console.warn(response.json())
-            //  return response.json();
             let data = await response.json()
-            user = new UserLocation({
-                username: 'Pedro',
+            this.user = new UserLocation({
+                username: this.session.data.authenticated.User.username,
                 lat: data.location.Latitude,
                 lng: data.location.Longitude
             })
-            console.warn(user)
-
+            this.emberConfLocation = this.user.getLocation()
+            this.set('isUserLocation', true);
         } else {
-            console.warn(response.json())
-
-            // let error = response.json();
-            //  throw new Error(error.message);
+            let error = response.json();
+            throw new Error(error.message);
         }
     },
     actions: {
@@ -73,14 +76,19 @@ export default Ember.Component.extend({
             });
 
             if (response.ok) {
-                console.warn("Sucesso")
-                console.warn(response)
-                    // this.transitionToRoute('login');
-                    // return response.json();
+                this.user = new UserLocation({
+                    username: this.session.data.authenticated.User.username,
+                    lat: lat,
+                    lng: lng,
+                })
+                this.set('emberConfLocation', this.user.getLocation());
             } else {
-                console.warn(response)
-                    //let error = response.json();
-                    // throw new Error(error.message);
+                this.user = new UserLocation({
+                    username: this.session.data.authenticated.User.username,
+                    lat: lat,
+                    lng: lng,
+                })
+                this.set('emberConfLocation', this.user.getLocation());
             }
         },
     },
