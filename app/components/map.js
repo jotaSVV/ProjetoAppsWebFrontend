@@ -23,6 +23,7 @@ export default Ember.Component.extend({
   lng: -8.6291053,
   zoom: 16,
   session: inject('session'),
+  marker: inject('markers'),
   isUserLocation: false,
   user: UserLocation,
   emberConfLocation: [41.1579438, -8.6291053],

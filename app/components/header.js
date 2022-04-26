@@ -20,6 +20,7 @@ export class UserLocation {
 
 export default Ember.Component.extend({
   session: inject('session'),
+  marker: inject('markers'),
   isShowingFilterModal: false,
   isShowingSearchModal: false,
   active: false,
@@ -206,8 +207,13 @@ export default Ember.Component.extend({
           }
         );
         if (response.ok) {
-          console.warn(response.json())
-         // return await response.json();
+          let data = await response.json()
+          data.locations.forEach((location, key, arr ) => {
+              if(Object.is(arr.length - 1, key)) 
+                return
+              this.marker.addItem([location.Latitude, location.Longitude])
+              console.warn(this.marker.markersList)
+          })
         } else {
           let error = await response.json();
           console.warn(error.message);
@@ -219,6 +225,7 @@ export default Ember.Component.extend({
       event.preventDefault();
       console.warn(this.user.lat)
       let meters = document.getElementById('meters').value
+      console.warn(meters)
       if(meters == '')
         alert('Por favor insira uma data de inicio e uma data de fim');
        else{

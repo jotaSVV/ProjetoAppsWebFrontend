@@ -47,10 +47,11 @@
                         line-height: 22px;
                         cursor: pointer;
                         text-transform: capitalize;
+                        font-weight: 700;
                     }
                     
                     header .header-menu .left-menu .user-info:hover {
-                        font-weight: 700;
+                        opacity: 0.4;
                     }
                     
                     header .header-menu .right-menu {
@@ -72,13 +73,13 @@
                     header .header-menu .right-menu .search p {
                         cursor: pointer;
                         font-size: 13px;
-                        opacity: 0.6;
+                        opacity: 1;
+                        font-weight: 500;  
                     }
                     
                     header .header-menu .right-menu .filters p:hover,
                     header .header-menu .right-menu .search p:hover {
-                        font-weight: 800;
-                        opacity: 1!important;
+                        opacity: 0.6!important;
                     }
                     
                     header .header-menu .logout {
@@ -91,11 +92,11 @@
                         background-position: center;
                         height: 18px;
                         width: 18px;
-                        opacity: 0.5;
+                        opacity: 1;
                     }
                     
                     header .header-menu .svg:hover {
-                        opacity: 1!important;
+                        opacity: 0.5!important;
                     }
                     
                     header .header-menu .alerts {
