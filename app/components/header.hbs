@@ -54,6 +54,7 @@
             </div>
         </div>
     {{/if}}
+    {{!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --}}
     {{#if this.isShowingFilterModal}}
     <ModalDialog @onClose={{action "openFilterModal"}} @targetAttachment="center" @translucentOverlay={{true}}>
         <div class="modal-filter">
@@ -85,9 +86,50 @@
         </div>
     </ModalDialog>
     {{/if}}
+    {{!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --}}
     {{#if this.isShowingSearchModal}}
     <ModalDialog @onClose={{action "openSearchModal"}} @targetAttachment="center" @translucentOverlay={{true}}>
-        Pesquisa!
+        <div class="modal-filter search">
+            <div class="close-modal" {{action (action "openSearchModal")}}>
+                <div class="close-svg"></div>
+            </div>
+            <div class="dropdown" {{on-click-outside (action "closeSelect")}}>
+                <div class="select {{if this.active 'active' 'non-active'}}" {{action (action "openSelect")}}>
+                    <span>Selecione o tipo de Pesquisa</span>
+                    <i class="fa fa-chevron-left"></i>
+                </div>
+                <input type="hidden" name="gender">
+                <ul class="dropdown-menu {{if this.selectUser 'active' 'non-active'}}">
+                    <li id="userHistory" name="userHistory" {{action (action "userHistory")}}>Histórico de deslocamentos entre datas</li>
+                    <li id="searchUserXKm" name="searchUserXKm" {{action (action "searchUserXKm")}}>Pesquisar utilizadores em raio de x KM</li>
+                </ul>
+            </div>
+        </div>
+        {{#if this.isSearchHistory}}
+            <form  onSubmit={{action "searchHistory"}}>
+                <div class="modal-filter searchHistory">
+                    <div class="modal-user-history">Histórico de deslocamentos entre datas</div>
+                    <div class="date">
+                        <div class="input-date1"><input id="date1" type="date"></div>
+                        <div class="input-date2"><input id="date2" type="date"></div>
+                    </div>
+                    <div class="submit">
+                        <button type="submit" class="filter-btn">Pesquisar</button>
+                    </div>
+                </div>
+            </form>
+        {{/if}}
+        {{#if this.isSearchXKm}}
+            <form  onSubmit={{action "searchXKm"}}>
+                <div class="modal-filter searchXKm">
+                    <div class="modal-user-history">Exibir Utilizadores no raio de X KM</div>
+                    <input id="meters" type="number" min="0" placeholder="Insira o raio (m) no qual quer exibir os utilizadores">
+                    <div class="submit">
+                        <button type="submit" class="filter-btn">Pesquisar</button>
+                    </div>
+                </div>
+            </form>
+        {{/if}}
     </ModalDialog>
     {{/if}}
 </header>

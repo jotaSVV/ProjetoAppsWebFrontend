@@ -173,7 +173,15 @@
                         width: 100%;
                         text-transform: uppercase;
                     }
-                    
+
+                    #modal-overlays .modal-filter .modal-user-history{
+                        position: absolute;
+                        top: 0;
+                        margin-top: 5px;
+                        font-size: 16px;
+                        font-weight: 700;
+                    }
+
                     #modal-overlays .modal-filter .submit button:hover {
                         color: #FFF;
                         border-color: rgba(32, 47, 85, 0.8);
@@ -351,4 +359,21 @@
 
                     header .right-bar .container .wrap-right-bar .users-list .user .user-info-btn .remove-follower:hover, header .right-bar .container .wrap-right-bar .users-list .user .user-info-btn .add-follower:hover,header .right-bar .container .wrap-right-bar .users-list .user .user-info-btn .get-user-location:hover{
                         opacity: 0.5;
+                    }
+
+                    .modal-filter.search {
+                        height: 100%!important;
+                        padding: 45px 25px 25px!important;
+                    }
+
+                    #modal-overlays .modal-filter.searchHistory{height: 190px;padding: 24px 25px!important;}
+
+                    #modal-overlays .modal-filter.searchXKm{height: 190px;padding: 52px 25px!important;}
+
+                    #modal-overlays .modal-filter.searchXKm .submit{margin-top: 40px;}
+
+                    #modal-overlays .modal-filter.searchXKm input[type="number"]{
+                        border: 1px solid;
+                        padding: 5px;
+                        width: 100%;
                     }

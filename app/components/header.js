@@ -1,5 +1,22 @@
 import Ember from 'ember';
 import { inject } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+
+export class UserLocation {
+  @tracked username;
+  @tracked lat;
+  @tracked lng;
+
+  constructor({ username, lat, lng }) {
+    this.username = username;
+    this.lat = lat;
+    this.lng = lng;
+  }
+
+  getLocation() {
+    return [this.lat, this.lng];
+  }
+}
 
 export default Ember.Component.extend({
   session: inject('session'),
@@ -13,6 +30,40 @@ export default Ember.Component.extend({
   usersData: [],
   isSosActive:false,
   text: 'Escolha utizador(es)',
+  isSearchHistory: false,
+  isSearchXKm: false,
+  user: UserLocation,
+
+  async init() {
+    this._super(...arguments);
+
+    let response = await fetch(
+      'http://gobackendufp.herokuapp.com/api/v1/position/',
+      {
+        method: 'GET',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+          'Content-Type': 'application/json',
+          Authorization: `${this.session.data.authenticated.token}`,
+        },
+      }
+    );
+    if (response.ok) {
+      let data = await response.json();
+      this.user = new UserLocation({
+        username: this.session.data.authenticated.User.username,
+        lat: data.location.Latitude,
+        lng: data.location.Longitude,
+      });
+      this.emberConfLocation = this.user.getLocation();
+      this.set('isUserLocation', true);
+    } else {
+      let error = response.json();
+      throw new Error(error.message);
+    }
+  },
 
   actions: {
     openFilterModal() {
@@ -119,6 +170,86 @@ export default Ember.Component.extend({
         }else{
             this.set('isSosActive',false);
         }
-    }
-  },
+    },
+    userHistory(){
+      this.set('isSearchXKm',false);
+      this.set('isSearchHistory',true);
+      this.set('selectUser', false);
+    },
+    searchUserXKm(){
+        this.set('isSearchXKm',true);
+        this.set('isSearchHistory',false);
+        this.set('selectUser', false);
+    },
+    async searchHistory(){
+      event.preventDefault();
+      let date1 = document.getElementById('date1').value
+      let date2 = document.getElementById('date2').value
+      if(date1 == '' || date2 == '')
+        alert('Por favor insira uma data de inicio e uma data de fim');
+      else{
+        let response = await fetch(
+          'http://gobackendufp.herokuapp.com/api/v1/position/history',
+          {
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+              'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+              'Content-Type': 'application/json',
+              Authorization: `${this.session.data.authenticated.token}`,
+            },
+            body: JSON.stringify({
+              Start: date1,
+              End: date2,
+            }),
+          }
+        );
+        if (response.ok) {
+          console.warn(response.json())
+         // return await response.json();
+        } else {
+          let error = await response.json();
+          console.warn(error.message);
+          //throw new Error(error.message);
+        }
+      }
+    },
+    async searchXKm(){
+      event.preventDefault();
+      console.warn(this.user.lat)
+      let meters = document.getElementById('meters').value
+      if(meters == '')
+        alert('Por favor insira uma data de inicio e uma data de fim');
+       else{
+         let response = await fetch(
+           'http://gobackendufp.herokuapp.com/api/v1/position/history',
+           {
+             method: 'POST',
+             headers: {
+               'Access-Control-Allow-Origin': '*',
+               'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+               'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+               'Content-Type': 'application/json',
+               Authorization: `${this.session.data.authenticated.token}`,
+             },
+             body: JSON.stringify({
+               Latitude: this.user.lat,
+               Longitude: this.user.lng,
+               Meters: parseFloat(meters),
+             }),
+           }
+         );
+         if (response.ok) {
+           console.warn(response.json())
+          // return await response.json();
+         } else {
+           let error = await response.json();
+           console.warn(error.message);
+           alert(error.message);
+           throw new Error(error.message);
+         }
+     }
+    },
+  }
 });
