@@ -1,0 +1,15 @@
+<div class="user-info">
+    <div class="user-id">ID</div>
+    <div class="user-name-label">Nome</div>
+</div>
+{{#each @data as |userInfo|}}
+    <div class="user">
+        <div class="user-info-label">
+            <div class="user-img list-label">{{userInfo.ID}}</div>
+            <div class="user-name list-label">{{userInfo.username}}</div>
+        </div>
+        <div class="user-info-btn">
+            <div class="add-follower list-label" {{action (action "addFollower") userInfo.ID}}></div>
+        </div>
+    </div>
+{{/each}}

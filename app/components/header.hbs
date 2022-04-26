@@ -4,7 +4,7 @@
             <div class="header-menu">
                 <div class="left-menu">
                     <a href="#" class="icon">
-                        <div class="svg-icon"></div>
+                        <div class="svg-icon {{if this.isSosActive 'active' 'non-active'}}" {{action (action "sos")}}></div>
                     </a>
                     <div class="user-info">{{this.session.data.authenticated.User.username}}</div>
                 </div>
@@ -19,7 +19,7 @@
                         <div class="alert-icon svg"></div>
                     </div>
                     <div class="chat">
-                        <div class="chat-svg svg"></div>
+                        <div class="chat-svg svg" {{action (action "openRightBar")}}></div>
                     </div>
                     <div class="logout">
                         <div class="icon-logout svg"{{action (action "logout")}}></div>
@@ -28,12 +28,34 @@
             </div>
         </div>
     </div>
+    {{#if this.isRightBarOpen}}
+        <div class="right-bar" {{on-click-outside (action "closeRightBar")}}>
+            <div class="container">
+                <div class="wrap-right-bar">
+                    <div class="select-buttons">
+                        <div class="show-all-users wrap-buttons-label {{if this.showAllUsers 'active' 'non-active'}}"{{action (action "getAllUsers")}}>Users</div>
+                        <div class="show-follow-users wrap-buttons-label {{if this.showFollowers 'active' 'non-active'}}"{{action (action "getAllFollowers")}}>Followers</div>
+                    </div>
+                    {{#if this.showAllUsers}}
+                    <div class="users-list">
+                        <Header::Users
+                            @data={{this.usersData}}
+                        />
+                    </div>
+                    {{/if}}
+                    {{#if this.showFollowers}}
+                    <div class="users-list">
+                        <Header::Followers
+                            @data={{this.usersData}}
+                        />
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    {{/if}}
     {{#if this.isShowingFilterModal}}
-    {{#modal-dialog
-        onClose=(action "openFilterModal")
-        targetAttachment="center"
-        translucentOverlay=true
-    }}
+    <ModalDialog @onClose={{action "openFilterModal"}} @targetAttachment="center" @translucentOverlay={{true}}>
         <div class="modal-filter">
             <div class="close-modal" {{action (action "openFilterModal")}}>
                 <div class="close-svg"></div>
@@ -61,15 +83,11 @@
                 <button type="submit" class="filter-btn">Pesquisar</button>
             </div>
         </div>
-    {{/modal-dialog}}
+    </ModalDialog>
     {{/if}}
     {{#if this.isShowingSearchModal}}
-    {{#modal-dialog
-        onClose=(action "openSearchModal")
-        targetAttachment="center"
-        translucentOverlay=true
-    }}
+    <ModalDialog @onClose={{action "openSearchModal"}} @targetAttachment="center" @translucentOverlay={{true}}>
         Pesquisa!
-    {{/modal-dialog}}
+    </ModalDialog>
     {{/if}}
 </header>
