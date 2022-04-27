@@ -38,5 +38,7 @@ export default Base.extend({
     }
   },
 
-  invalidate(data) {},
+  async invalidate(data) {
+    //no-op
+  }
 });

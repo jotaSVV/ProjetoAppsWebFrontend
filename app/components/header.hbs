@@ -54,39 +54,39 @@
             </div>
         </div>
     {{/if}}
-    {{!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --}}
     {{#if this.isShowingFilterModal}}
     <ModalDialog @onClose={{action "openFilterModal"}} @targetAttachment="center" @translucentOverlay={{true}}>
         <div class="modal-filter">
             <div class="close-modal" {{action (action "openFilterModal")}}>
                 <div class="close-svg"></div>
             </div>
-            <div class="user">
-                <div class="dropdown" {{on-click-outside (action "closeSelect")}}>
-                    <div class="select {{if this.active 'active' 'non-active'}}" {{action (action "openSelect")}}>
-                        <span>{{this.text}}</span>
-                        <i class="fa fa-chevron-left"></i>
+            <form onSubmit={{action "filterUsers"}}>
+                <div class="user">
+                    <div class="dropdown" {{on-click-outside (action "closeSelect")}}>
+                        <div class="select {{if this.active 'active' 'non-active'}}" {{action (action "openSelect")}}>
+                            <span>{{this.text}}</span>
+                            <i class="fa fa-chevron-left"></i>
+                        </div>
+                        <input type="hidden" name="gender">
+                        <ul class="dropdown-menu {{if this.selectUser 'active' 'non-active'}}">
+                            {{#each this.usersData as |u|}}
+                                <li id="{{u.ID}}" name="u.username" {{action (action "selectValue" u.username u.ID)}}>{{u.username}}</li>
+                            {{/each}}
+                        </ul>
                     </div>
-                    <input type="hidden" name="gender">
-                    <ul class="dropdown-menu {{if this.selectUser 'active' 'non-active'}}">
-                        <li id="male" name="male" {{action (action "selectValue" "male")}}>Male</li>
-                        <li id="female" name="female" {{action (action "selectValue" "female")}}>Female</li>
-                    </ul>
+                    <span class="msg"></span>
                 </div>
-                <span class="msg"></span>
-
-            </div>
-            <div class="date">
-                <div class="input-date1"><input id="date" type="date"></div>
-                <div class="input-date2"><input id="date" type="date"></div>
-            </div>
-            <div class="submit">
-                <button type="submit" class="filter-btn">Pesquisar</button>
-            </div>
+                <div class="date">
+                    <div class="input-date1"><input id="filter-date1" type="date"></div>
+                    <div class="input-date2"><input id="filter-date2" type="date"></div>
+                </div>
+                <div class="submit">
+                    <button type="submit" class="filter-btn">Pesquisar</button>
+                </div>
+            </form>
         </div>
     </ModalDialog>
     {{/if}}
-    {{!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --}}
     {{#if this.isShowingSearchModal}}
     <ModalDialog @onClose={{action "openSearchModal"}} @targetAttachment="center" @translucentOverlay={{true}}>
         <div class="modal-filter search">

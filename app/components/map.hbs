@@ -12,7 +12,7 @@
         {{#each this.marker.markersList as |r|}}
             <layers.marker @lat={{r.latitude}} @lng={{r.longitude}} @draggable={{true}} as |marker|>
             <marker.popup @popupOpen={{readonly r.isOpen}}>
-                <h3>Histórico de Localização</h3>
+                <h3>{{r.text}}</h3>
                 <p>Lat: {{r.latitude}}</p>
                 <p>Long: {{r.longitude}}</p>
             </marker.popup>

@@ -21,6 +21,7 @@ export class UserLocation {
 export default Ember.Component.extend({
   session: inject('session'),
   marker: inject('markers'),
+  sos: inject('user'),
   isShowingFilterModal: false,
   isShowingSearchModal: false,
   active: false,
@@ -33,6 +34,8 @@ export default Ember.Component.extend({
   text: 'Escolha utizador(es)',
   isSearchHistory: false,
   isSearchXKm: false,
+  usersList:[],
+  filterUserID: null,
   user: UserLocation,
 
   async init() {
@@ -67,32 +70,58 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    openFilterModal() {
+    async openFilterModal() {
+      let response = await fetch(
+        'http://gobackendufp.herokuapp.com/api/v1/user/getAll',
+        {
+          method: 'GET',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods':
+              'HEAD, GET, POST, PUT, PATCH, DELETE',
+            'Access-Control-Allow-Headers':
+              'Origin, Content-Type, X-Auth-Token',
+            'Content-Type': 'application/json',
+            Authorization: `${this.session.data.authenticated.token}`,
+          },
+        }
+      );
+      if (response.ok) {
+        let data = await response.json();
+        this.usersData = data.data;
+      } else {
+        let error = response.json();
+        throw new Error(error.message);
+      }
       this.set('isShowingFilterModal', !this.isShowingFilterModal);
     },
     openSearchModal() {
       this.set('isShowingSearchModal', !this.isShowingSearchModal);
     },
-    logout() {
-      // RouterService.transitionTo('login');
-      this.session.invalidate();
-      // let response = await fetch('http://localhost:8081/api/v1/auth/logout', {
-      //     method: 'POST',
-      //     headers: {
-      //         'Access-Control-Allow-Origin': '*',
-      //         'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
-      //         'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-      //         'Content-Type': 'application/json',
-      //       },
-      // });
-      // if (response.ok) {
-      //     this.session.invalidate();
-      //     this.transitionToRoute('login');
-      //     return await response.json();
-      // } else {
-      //     let error = await response.json();
-      //     throw new Error(error.message);
-      // }
+    async logout() {
+      let response = await fetch('http://gobackendufp.herokuapp.com/api/v1/auth/logout', {
+          method: 'POST',
+          headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+              'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+              'Content-Type': 'application/json',
+              Authorization: `${this.session.data.authenticated.token}`,
+            },
+          body: JSON.stringify({
+            username: this.session.username,
+          }),
+      });
+      if (response.ok) {
+          let data = await response.json()
+          console.log(data)
+          this.session.invalidate();
+          this.transitionToRoute('login');
+          return data;
+      } else {
+          let error = await response.json();
+          throw new Error(error.message);
+      }
     },
     openSelect() {
       this.set('selectUser', true);
@@ -100,9 +129,10 @@ export default Ember.Component.extend({
     closeSelect() {
       this.set('selectUser', false);
     },
-    selectValue(attr) {
+    selectValue(attr, id) {
       this.set('selectUser', false);
       this.set('text', attr);
+      this.set('filterUserID', id);
     },
     openRightBar() {
       this.set('isRightBarOpen', !this.isRightBarOpen);
@@ -165,11 +195,55 @@ export default Ember.Component.extend({
         throw new Error(error.message);
       }
     },
-    sos(){
+    async sos(){
         if(!this.isSosActive){
             this.set('isSosActive',true);          
         }else{
             this.set('isSosActive',false);
+        }
+        this.sos.changeSosState()
+        if(this.sos){
+          let response = await fetch(
+            'http://gobackendufp.herokuapp.com/api/v1/sos/activate',
+            {
+              method: 'GET',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+                'Content-Type': 'application/json',
+                Authorization: `${this.session.data.authenticated.token}`,
+              },
+            }
+          );
+          if (response.ok) {
+            let data = await response.json()
+            console.warn(data)
+          }else {
+            let error = await response.json();
+            throw new Error(error.message);
+          }
+        }else{
+          let response = await fetch(
+            'http://gobackendufp.herokuapp.com/api/v1/sos/desactivate',
+            {
+              method: 'GET',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+                'Content-Type': 'application/json',
+                Authorization: `${this.session.data.authenticated.token}`,
+              },
+            }
+          );
+          if (response.ok) {
+            let data = await response.json()
+            console.warn(data)
+          }else {
+            let error = await response.json();
+            throw new Error(error.message);
+          }
         }
     },
     userHistory(){
@@ -208,29 +282,29 @@ export default Ember.Component.extend({
         );
         if (response.ok) {
           let data = await response.json()
+          this.marker.markersList = []
           data.locations.forEach((location, key, arr ) => {
               if(Object.is(arr.length - 1, key)) 
                 return
-              this.marker.addItem([location.Latitude, location.Longitude])
-              console.warn(this.marker.markersList)
+              this.marker.addItem([location.Latitude, location.Longitude], "Histórico de Localização")
           })
         } else {
           let error = await response.json();
-          console.warn(error.message);
-          //throw new Error(error.message);
+          throw new Error(error.message);
         }
       }
     },
     async searchXKm(){
       event.preventDefault();
       console.warn(this.user.lat)
+      console.warn(this.user.lng)
       let meters = document.getElementById('meters').value
       console.warn(meters)
       if(meters == '')
         alert('Por favor insira uma data de inicio e uma data de fim');
        else{
          let response = await fetch(
-           'http://gobackendufp.herokuapp.com/api/v1/position/history',
+           'http://gobackendufp.herokuapp.com/api/v1/position/users_under_xkms',
            {
              method: 'POST',
              headers: {
@@ -248,15 +322,153 @@ export default Ember.Component.extend({
            }
          );
          if (response.ok) {
-           console.warn(response.json())
-          // return await response.json();
+           return await response.json();
          } else {
            let error = await response.json();
-           console.warn(error.message);
-           alert(error.message);
            throw new Error(error.message);
          }
      }
     },
+    async filterUsers(){
+      event.preventDefault();
+      let date1 = document.getElementById('filter-date1').value
+      let date2 = document.getElementById('filter-date2').value
+      this.marker.markersList = []
+      if(this.filterUserID == null) 
+        this.filterUserID = 0
+      
+      if(date1 == '' && date2 == ''){
+        let response = await fetch(
+          'http://gobackendufp.herokuapp.com/api/v1/position/filter',
+          {
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+              'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+              'Content-Type': 'application/json',
+              Authorization: `${this.session.data.authenticated.token}`,
+            },
+            body: JSON.stringify({
+              UserId: [this.filterUserID]
+            }),
+          }
+        );
+        if (response.ok) {
+          var data = await response.json()
+          this.marker.markersList = []
+          let text = String(this.filterUserID) + ": " + this.text;
+          data.locations.forEach((location, key, arr ) => {
+              if(Object.is(arr.length - 1, key)) 
+                return
+              this.marker.addItem([location.Latitude, location.Longitude], text)
+          })
+          console.warn(data)
+          alert('Sucesso, ver localizações no mapa')
+        } else {
+          let error = await response.json();
+          alert("Não foram reportadas localizações para este utilizador/datas");
+          throw new Error(error.message);
+        }
+      }else if(date1 != '' && date2 == ''){
+        let response = await fetch(
+          'http://gobackendufp.herokuapp.com/api/v1/position/filter',
+          {
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+              'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+              'Content-Type': 'application/json',
+              Authorization: `${this.session.data.authenticated.token}`,
+            },
+            body: JSON.stringify({
+              UserId: [this.filterUserID],
+              Dates: [date1]
+            }),
+          }
+        );
+        if (response.ok) {
+          var data = await response.json()
+          this.marker.markersList = []
+          data.locations.forEach((location, key, arr ) => {
+            if(Object.is(arr.length - 1, key)) 
+              return
+            this.marker.addItem([location.Latitude, location.Longitude], "Histórico de Localização")
+          })
+          console.warn(data)
+          alert('Sucesso, ver localizações no mapa')
+        } else {
+          let error = await response.json();
+          alert("Não foram reportadas localizações para este utilizador/datas");
+          throw new Error(error.message);
+        }
+      }else if(date1 == '' && date2 != ''){
+        let response = await fetch(
+          'http://gobackendufp.herokuapp.com/api/v1/position/filter',
+          {
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+              'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+              'Content-Type': 'application/json',
+              Authorization: `${this.session.data.authenticated.token}`,
+            },
+            body: JSON.stringify({
+              UserId: [this.filterUserID],
+              Dates: [date2]
+            }),
+          }
+        );
+        if (response.ok) {
+          var data = await response.json()
+          this.marker.markersList = []
+          data.locations.forEach((location, key, arr ) => {
+            if(Object.is(arr.length - 1, key)) 
+              return
+            this.marker.addItem([location.Latitude, location.Longitude], "Histórico de Localização")
+          })
+          console.warn(data)
+          alert('Sucesso, ver localizações no mapa')
+        } else {
+          let error = await response.json();
+          alert("Não foram reportadas localizações para este utilizador/datas");
+          throw new Error(error.message);
+        }
+      }else if(date1 != '' && date2 != ''){
+        let response = await fetch(
+          'http://gobackendufp.herokuapp.com/api/v1/position/filter',
+          {
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+              'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+              'Content-Type': 'application/json',
+              Authorization: `${this.session.data.authenticated.token}`,
+            },
+            body: JSON.stringify({
+              UserId: [this.filterUserID],
+              Dates: [date1, date2]
+            }),
+          }
+        );
+        if (response.ok) {
+          var data = await response.json()
+          data.locations.forEach((location, key, arr ) => {
+            if(Object.is(arr.length - 1, key)) 
+              return
+            this.marker.addItem([location.Latitude, location.Longitude], "Histórico de Localização")
+          })
+          console.warn(data)
+          alert('Sucesso, ver localizações no mapa')
+        } else {
+          let error = await response.json();
+          alert("Não foram reportadas localizações para este utilizador/datas");
+          throw new Error(error.message);
+        }
+      }
+    }
   }
 });
